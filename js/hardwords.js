@@ -83,7 +83,7 @@ TO-DO: Check whether there is any duplicate code with detectCollision and if the
             }
         }
         end++;
-    } while((x_pos <== 0 || (enoughSpace === false)) && end < 15);
+    } while((x_pos <= 0 || (enoughSpace === false)) && end < 15);
 
     if(enoughSpace === true) {
         for(let i = 0; i < word.length; i++){
