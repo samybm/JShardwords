@@ -35,13 +35,34 @@ pseudocode!!!!!!!!,pseudocode!!!!!!!!, pseudocode!!!!!!!!-->
         <title>MUSIC WORD GAME</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+
+        <script type="text/JavaScript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/JavaScript" src="js/hardwords.js"></script>
+        <script src="js/madlibs.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+
+
+        <div id="gamearea">
+
+        </div>
+
+        <div id="answerbox">
+            <form id="answerform">
+                <input id="answer" type="text" name="answer" autofocus/>
+
+            </form>
+        </div>
+
+        <div id="scorebox">
+            Your score: <span id="score">0</span>
+        </div>
         
-        <script src="" async defer></script>
+        
     </body>
 </html>
