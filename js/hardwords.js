@@ -3,26 +3,26 @@
 
 
 /* variables */
-let words = ["joogerhamilton", "word", "foursure", "yeeyee" , "swanging", "skitskurt", "gas", "break", "dip", "gas", "mollywhop", "thirsty", "thurst"];
+let words = ["joogerhamilton", "word", "foursure", "yeeyee", "swanging", "skitskurt", "gas", "break", "dip", "gas", "mollywhop", "thirsty", "thurst"];
 let wordsVisible = [];
 let points = 0;
 
 
 /* Functions/start game */
 
-$(document).ready(function () {
+$(document).ready(function(){
    
     /*	Select the text input with jQuery and add an event handler that checks the input against the words in the game*/ 
     let $answerBox = $('#answer');
 
-        $answerBox.keyup(function() {
+        $answerBox.keyup(function(){
 
-            if(deleteWord($answerBox.val().toLowerCase()) === true) {
+            if(deleteWord($answerBox.val().toLowerCase()) === true){
                 $answerBox.val("");
             }
         });
 
-        $('#answerform').submit(function() {
+        $('#answerform').submit(function(){
             return false;
         });
 
@@ -38,13 +38,14 @@ $(document).ready(function () {
 Each square has a unique id number ranging from 1 to 200. These are used to locate the squares. Each row has 20 squares and there are 10 rows
 TO-DO: Contain each row inside its own div*/
 
-function  createGameArea() {
+function  createGameArea(){
 
     for( var j = 0; j < 10; j++){
         $('#gamearea').append('<div id="row' + j + '" class="row"></div>');
 
         for( let i = J * 20; i < (j * 20 + 20); i++){
-            $('#row' + j).append('<div id="' + (i + 1) + '" class=')
+            $('#row' + j).append('<div id="' + (i + 1) + '" class= "square"></div>');
+
         }
     }
 }
@@ -56,7 +57,7 @@ Adds the new word to array wordsVisible, which holds all the words visible in th
 Also, if there is no space available for the word at the random location, it will try another location for 15 times after which it gives up and returns false.
 TO-DO: Check whether there is any duplicate code with detectCollision and if there is, make this function use that instead*/
 
- function addWordToGame() {
+ function addWordToGame(){
 
     let word;
     let enoughSpace = false;
@@ -71,10 +72,10 @@ TO-DO: Check whether there is any duplicate code with detectCollision and if the
     let end = 0;
 
     do{
-        x_pos = Math.floor(math.random() * 20 + 2) - word.length;
+        x_pos = Math.floor(Math.random() * 20 + 2) - word.length;
 
-        for(let i = x_pos; i <= 20; i++) {
-            if($('#' + i).html() !== "") {
+        for(let i = x_pos; i <= 20; i++){
+            if($('#' + i).html() !== ""){
                 enoughSpace = false;
                 break;
             }
@@ -85,12 +86,12 @@ TO-DO: Check whether there is any duplicate code with detectCollision and if the
         end++;
     } while((x_pos <= 0 || (enoughSpace === false)) && end < 15);
 
-    if(enoughSpace === true) {
+    if(enoughSpace === true){
         for(let i = 0; i < word.length; i++){
             let $letter = $('#' + (x_pos + i));
              
             $letter.html(word[i]);
-            $letter.addClasss(word);
+            $letter.addClass(word);
         }
     }else{
         return false;
@@ -101,14 +102,14 @@ TO-DO: Check whether there is any duplicate code with detectCollision and if the
 If there is room below, the squares now attended are made empty, their class based on the word is removed and those are added to square divs one row below.*/
 
 
-function descendWord(wordToMove) {
+function descendWord(wordToMove){
     let $wordToMove = $('.' + wordToMove);
 
     if(parseInt($wordToMove.attr('id')) <= 180){
         if(detectCollision($wordToMove) === false){
-            $wordToMove.each(function() {
+            $wordToMove.each(function(){
 
-                let id = parseInt($(this),attr('id')); 
+                let id = parseInt($(this).attr('id')); 
 
                 let $squareBelow = $('#' + (id + 20));
 
@@ -125,23 +126,23 @@ function descendWord(wordToMove) {
 /*Checks whether the squares below the given word are all empty. Returns true if they are and false if they aren't.*/
 
 
-function detectCollision($wordToMove) {
+function detectCollision($wordToMove){
     let collisions = [];
 
-        $wordToMove.each(function() {
+        $wordToMove.each(function(){
 
             let id = parseInt($(this).attr('id'));
 
             let $squareBelow = $('#' + (id + 20));
 
-            if($squareBelow.html() !== "") {
+            if($squareBelow.html() !== ""){
                 collisions.push(true);
             }
         });
 
-    if(collisions.length === 0) {
+    if(collisions.length === 0){
         return false;
-    }else {
+    }else{
         return true;
     }
 }
@@ -154,7 +155,7 @@ function runGame(){
 
     let intervalID = window.setInterval(function(){
 
-        for(let i = 0; i < wordVisible.length; i++){
+        for(let i = 0; i < wordsVisible.length; i++){
             descendWord(wordsVisible[i]);
         }
 
@@ -179,9 +180,20 @@ If the word is found, calculatePoints(word) is called to add points for the in q
 function deleteWord(word){
 
     if(wordsVisible.indexOf(word) === -1) {
-        console.log("word \"" + "\" deleted");
+        console.log("Word \"" + word + "\" not found");
+        return false;
 
-        calculatePoints(words);
+    }else{
+
+        let $wordToDelete = $('.' + word);
+
+        $wordToDelete.removeClass(word);
+        $wordToDelete.html("");
+        wordsVisible.splice(wordsVisible.indexOf(word), 1);
+        console.log("Word \"" + word + "\" deleted");
+        calculatePoints(word);
+    
+
 
         return true;
     }
@@ -189,7 +201,7 @@ function deleteWord(word){
 
 /*Adds points based on the length of the word*/
 
-function calculatePoints(words) {
+function calculatePoints(word) {
 
     points += word.length;
 
